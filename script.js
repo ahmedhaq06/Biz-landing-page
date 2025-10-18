@@ -39,8 +39,8 @@ const servicesData = [
 ];
 
 const pricingData = [
-    { id: 'starter', label: 'Starter', price: 150, frequency: 'month', desc: 'Per business. Ideal for most small businesses starting automation.' },
-    { id: 'professional', label: 'Professional', price: 400, frequency: 'month', desc: 'Per business. For clients who require premium support and higher volumes.' },
+    { id: 'starter', label: 'Starter', price: 100, frequency: 'month', desc: 'AI Receptionist: Automate your business communications and bookings 24/7 with our intelligent AI receptionist.' },
+    { id: 'professional', label: 'Professional', price: 100, frequency: 'month', desc: 'Lead Generation: Get high quality, ready-to-convert customer leads tailored for your business niche.' },
     { id: 'enterprise', label: 'Enterprise Plan', price: 'Custom', frequency: '', desc: 'Discounted bundle when purchasing multiple services (AI receptionist + leads).' }
 ];
 
