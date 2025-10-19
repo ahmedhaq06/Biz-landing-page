@@ -7,8 +7,35 @@
     <link rel="stylesheet" href="pages-styles.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <div class="nav-wrapper">
+    <!-- Mobile hamburger menu button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Mobile menu backdrop overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Mobile navigation wrapper -->
+    <div class="nav-wrapper" id="mobileNavWrapper">
+        <nav class="nav" id="mainNav">
+            <a href="index.html" class="nav-link">← Home</a>
+            <a href="features.html" class="nav-link">Features</a>
+            <a href="pricing.html" class="nav-link">Pricing</a>
+            <a href="index.html#testimonials" class="nav-link">Testimonials</a>
+            <a href="about.html" class="nav-link">About Us</a>
+            <a href="get-started.html" class="btn-get-start">
+                Get Started
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <div class="nav-wrapper desktop-only">
         <nav class="nav">
             <a href="index.html" class="btn-secondary" style="padding: 8px 20px; font-size: 13px;">← Home</a>
             <a href="features.html" class="nav-link">Features</a>
@@ -61,5 +88,6 @@
             </div>
         </section>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>

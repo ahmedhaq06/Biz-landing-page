@@ -7,7 +7,29 @@
     <link rel="stylesheet" href="pages-styles.css">
 </head>
 <body>
-    <div class="nav-wrapper">
+    <!-- Mobile hamburger menu button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Mobile menu backdrop overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Mobile navigation wrapper -->
+    <div class="nav-wrapper" id="mobileNavWrapper">
+        <nav class="nav" id="mainNav">
+            <a href="index.html" class="nav-link">← Home</a>
+            <a href="features.html" class="nav-link">Features</a>
+            <a href="pricing.html" class="nav-link">Pricing</a>
+            <a href="index.html#testimonials" class="nav-link">Testimonials</a>
+            <a href="about.html" class="nav-link">About Us</a>
+        </nav>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <div class="nav-wrapper desktop-only">
         <nav class="nav">
             <a href="index.html" class="btn-secondary" style="padding: 8px 20px; font-size: 13px;">← Home</a>
             <a href="features.html" class="nav-link">Features</a>
@@ -31,5 +53,6 @@
             </form>
         </section>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>

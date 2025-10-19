@@ -5,6 +5,68 @@
     - Adds accordion and smooth-scroll behavior
 */
 
+// Mobile menu toggle - MUST RUN AFTER DOM LOADS
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mainNav = document.getElementById('mobileNavWrapper');
+    const overlay = document.getElementById('mobileMenuOverlay');
+
+    console.log('Mobile menu button:', mobileMenuBtn);
+    console.log('Nav wrapper:', mainNav);
+    console.log('Overlay:', overlay);
+
+    if (mobileMenuBtn && mainNav) {
+        // Toggle menu function
+        function toggleMenu() {
+            const isActive = mobileMenuBtn.classList.contains('active');
+            
+            if (isActive) {
+                // Close menu
+                mobileMenuBtn.classList.remove('active');
+                mainNav.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            } else {
+                // Open menu
+                mobileMenuBtn.classList.add('active');
+                mainNav.classList.add('active');
+                if (overlay) overlay.classList.add('active');
+                document.body.classList.add('menu-open');
+            }
+            
+            console.log('Menu active:', mainNav.classList.contains('active'));
+        }
+
+        // Button click
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Menu button clicked!');
+            toggleMenu();
+        });
+
+        // Overlay click to close
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                toggleMenu();
+            });
+        }
+
+        // Close menu when clicking a nav link
+        const navLinks = mainNav.querySelectorAll('.nav-link, .btn-get-start');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('active');
+                mainNav.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            });
+        });
+    } else {
+        console.error('Mobile menu elements not found!');
+    }
+});
+
 // ---- Data (update these objects to change services/pricing) ----
 const servicesData = [
     {

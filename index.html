@@ -7,10 +7,35 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Mobile hamburger menu button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Mobile menu backdrop overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Mobile navigation wrapper (outside container for proper positioning) -->
+    <div class="nav-wrapper" id="mobileNavWrapper">
+        <nav class="nav" id="mainNav">
+            <a href="features.html" class="nav-link">Features</a>
+            <a href="pricing.html" class="nav-link">Pricing</a>
+            <a href="#testimonials" class="nav-link">Testimonials</a>
+            <a href="about.html" class="nav-link">About Us</a>
+            <a href="get-started.html" class="btn-get-start">
+                Get Started
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </nav>
+    </div>
+
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <!-- Nav wrapper: glassy rounded rectangle containing the nav links and CTA -->
+        <!-- Header (desktop only) -->
+        <header class="header desktop-only">
             <div class="nav-wrapper">
                 <nav class="nav">
                     <a href="features.html" class="nav-link">Features</a>
