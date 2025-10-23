@@ -112,21 +112,23 @@ let userRegion = 'US'; // default
 
 // Detect user region via IP geolocation
 async function detectUserRegion() {
-    // Check localStorage first
-    const cached = localStorage.getItem('userRegion');
-    if (cached) {
-        userRegion = cached;
-        return userRegion;
-    }
-
     try {
-        const response = await fetch('https://ipapi.co/json/', { timeout: 3000 });
+        const response = await fetch('https://ipapi.co/json/');
         const data = await response.json();
         userRegion = data.country_code || 'US';
         localStorage.setItem('userRegion', userRegion);
+        console.log('Detected region:', userRegion);
     } catch (error) {
-        console.log('Geolocation detection failed, using default USD pricing');
-        userRegion = 'US';
+        console.log('Geolocation detection failed, checking localStorage...');
+        // Fallback to cached value if API fails
+        const cached = localStorage.getItem('userRegion');
+        if (cached) {
+            userRegion = cached;
+            console.log('Using cached region:', userRegion);
+        } else {
+            userRegion = 'US';
+            console.log('Using default USD pricing');
+        }
     }
     
     return userRegion;
