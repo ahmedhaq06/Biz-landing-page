@@ -83,7 +83,7 @@ const servicesData = [
         id: 'leads',
         title: 'Lead Generation Services',
         bullets: [
-            'Curated leads for small businesses (insurance, salons, med-spas, etc.)',
+            'Curated leads for businesses (insurance, salons, med-spas, etc.)',
             'Sourced via social research, forms, and community platforms',
             'Optional Enterprise bundle with AI Receptionist for full automation'
         ]
