@@ -100,11 +100,37 @@ const servicesData = [
     }
 ];
 
+// Pricing data with dual currency support
 const pricingData = [
-    { id: 'starter', label: 'Starter', price: 100, frequency: 'month', desc: 'AI Receptionist: Automate your business communications and bookings 24/7 with our intelligent AI receptionist.' },
-    { id: 'professional', label: 'Professional', price: 100, frequency: 'month', desc: 'Lead Generation: Get high quality, ready-to-convert customer leads tailored for your business niche.' },
+    { id: 'starter', label: 'Starter', priceUSD: 100, priceINR: 4000, frequency: 'month', desc: 'AI Receptionist: Automate your business communications and bookings 24/7 with our intelligent AI receptionist.' },
+    { id: 'professional', label: 'Professional', priceUSD: 100, priceINR: 4000, frequency: 'month', desc: 'Lead Generation: Get high quality, ready-to-convert customer leads tailored for your business niche.' },
     { id: 'enterprise', label: 'Enterprise Plan', price: 'Custom', frequency: '', desc: 'Discounted bundle when purchasing multiple services (AI receptionist + leads).' }
 ];
+
+// Global variable to store detected region
+let userRegion = 'US'; // default
+
+// Detect user region via IP geolocation
+async function detectUserRegion() {
+    // Check localStorage first
+    const cached = localStorage.getItem('userRegion');
+    if (cached) {
+        userRegion = cached;
+        return userRegion;
+    }
+
+    try {
+        const response = await fetch('https://ipapi.co/json/', { timeout: 3000 });
+        const data = await response.json();
+        userRegion = data.country_code || 'US';
+        localStorage.setItem('userRegion', userRegion);
+    } catch (error) {
+        console.log('Geolocation detection failed, using default USD pricing');
+        userRegion = 'US';
+    }
+    
+    return userRegion;
+}
 
 // ---- Rendering helpers ----
 function createEl(tag, className, text) {
@@ -144,16 +170,32 @@ function renderPricing() {
     pricingData.forEach(p => {
         const card = createEl('div', 'pricing-card');
         const badge = createEl('div', 'pricing-badge', p.label);
-        // Render numeric prices with dollar + frequency, otherwise render the custom label (e.g., "Custom")
+        
+        // Determine price based on user region
         let priceEl;
-        if (typeof p.price === 'number') {
-            priceEl = createEl('div', 'pricing-price', `$${p.price}`);
+        let displayPrice, currencySymbol;
+        
+        if (p.price === 'Custom') {
+            // Enterprise plan - always show "Custom"
+            priceEl = createEl('div', 'pricing-price', p.price);
+        } else {
+            // Use region-specific pricing
+            if (userRegion === 'IN') {
+                displayPrice = p.priceINR;
+                currencySymbol = '₹';
+            } else {
+                displayPrice = p.priceUSD;
+                currencySymbol = '$';
+            }
+            
+            priceEl = createEl('div', 'pricing-price', `${currencySymbol}${displayPrice}`);
             if (p.frequency) {
-                const freq = createEl('div', 'pricing-freq', `/${p.frequency}`);
+                const freq = document.createElement('span');
+                freq.textContent = `/${p.frequency}`;
+                freq.style.fontSize = '0.5em';
+                freq.style.fontWeight = '400';
                 priceEl.appendChild(freq);
             }
-        } else {
-            priceEl = createEl('div', 'pricing-price', p.price);
         }
 
         const desc = createEl('div', 'pricing-desc', p.desc);
@@ -190,7 +232,11 @@ function initSmoothScroll() {
 }
 
 // ---- Initialization ----
-function init() {
+async function init() {
+    // Detect user region first
+    await detectUserRegion();
+    
+    // Then render content with correct pricing
     renderServices();
     renderPricing();
     initAccordion();
