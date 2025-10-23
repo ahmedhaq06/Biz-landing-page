@@ -870,6 +870,11 @@ body {
     display: none;
 }
 
+/* Hide mobile nav wrapper on desktop */
+#mobileNavWrapper {
+    display: none;
+}
+
 @media (max-width: 768px) {
     /* Prevent horizontal overflow */
     html, body {
