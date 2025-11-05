@@ -98,6 +98,32 @@
         .stagger-5 { transition-delay: 0.5s; }
         .stagger-6 { transition-delay: 0.6s; }
         .stagger-7 { transition-delay: 0.7s; }
+        
+        /* Mobile menu slide-in animation */
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+        }
+        
+        #mobile-menu.menu-open {
+            max-height: 500px;
+            opacity: 1;
+        }
+        
+        /* Stagger animation for mobile menu items */
+        #mobile-menu a {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+        
+        #mobile-menu.menu-open a:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay: 0.1s; }
+        #mobile-menu.menu-open a:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay: 0.15s; }
+        #mobile-menu.menu-open a:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay: 0.2s; }
+        #mobile-menu.menu-open a:nth-child(4) { opacity: 1; transform: translateX(0); transition-delay: 0.25s; }
+        #mobile-menu.menu-open a:nth-child(5) { opacity: 1; transform: translateX(0); transition-delay: 0.3s; }
     </style>
 </head>
 <body class="font-display bg-background-light dark:bg-background-dark text-[#111318] dark:text-white">
@@ -139,7 +165,7 @@
                 </div>
                 
                 <!-- Mobile Menu -->
-                <div id="mobile-menu" class="hidden md:hidden bg-background-light dark:bg-background-dark border-b border-[#dbdfe6] dark:border-gray-700">
+                <div id="mobile-menu" class="md:hidden bg-background-light dark:bg-background-dark border-b border-[#dbdfe6] dark:border-gray-700">
                     <div class="px-4 py-4 flex flex-col gap-4">
                         <a class="text-[#111318] dark:text-white text-base font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#features">Features</a>
                         <a class="text-[#111318] dark:text-white text-base font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#advantage">Your Advantage</a>

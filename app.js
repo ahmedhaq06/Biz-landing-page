@@ -8,22 +8,24 @@ function initMobileMenu() {
     if (!mobileMenuBtn || !mobileMenu) return;
     
     mobileMenuBtn.addEventListener('click', () => {
-        const isHidden = mobileMenu.classList.contains('hidden');
+        const isOpen = mobileMenu.classList.contains('menu-open');
         
-        if (isHidden) {
-            mobileMenu.classList.remove('hidden');
-            // Animate hamburger to X
-            const spans = mobileMenuBtn.querySelectorAll('span');
-            spans[0].classList.add('rotate-45', 'translate-y-2');
-            spans[1].classList.add('opacity-0');
-            spans[2].classList.add('-rotate-45', '-translate-y-2');
-        } else {
-            mobileMenu.classList.add('hidden');
+        if (isOpen) {
+            // Close menu
+            mobileMenu.classList.remove('menu-open');
             // Animate X back to hamburger
             const spans = mobileMenuBtn.querySelectorAll('span');
             spans[0].classList.remove('rotate-45', 'translate-y-2');
             spans[1].classList.remove('opacity-0');
             spans[2].classList.remove('-rotate-45', '-translate-y-2');
+        } else {
+            // Open menu
+            mobileMenu.classList.add('menu-open');
+            // Animate hamburger to X
+            const spans = mobileMenuBtn.querySelectorAll('span');
+            spans[0].classList.add('rotate-45', 'translate-y-2');
+            spans[1].classList.add('opacity-0');
+            spans[2].classList.add('-rotate-45', '-translate-y-2');
         }
     });
     
@@ -31,7 +33,7 @@ function initMobileMenu() {
     const mobileLinks = mobileMenu.querySelectorAll('a');
     mobileLinks.forEach(link => {
         link.addEventListener('click', () => {
-            mobileMenu.classList.add('hidden');
+            mobileMenu.classList.remove('menu-open');
             const spans = mobileMenuBtn.querySelectorAll('span');
             spans[0].classList.remove('rotate-45', 'translate-y-2');
             spans[1].classList.remove('opacity-0');
