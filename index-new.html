@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoConnect</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#065f46",
+                        secondary: "#a3e6b8",
+                        "background-light": "#f8fff6",
+                        "background-dark": "#131022"
+                    },
+                    fontFamily: {
+                        display: "Inter"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        lg: "1rem",
+                        xl: "1.5rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 24px;
+        }
+        
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Slide-in from left */
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* Slide-in from right */
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* Scale-in animation */
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Stagger animation delays */
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+        .stagger-6 { transition-delay: 0.6s; }
+        .stagger-7 { transition-delay: 0.7s; }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-[#111318] dark:text-white">
+    <div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Header -->
+            <header class="fixed top-0 left-0 right-0 z-50 px-4 pt-4">
+                <div class="mx-auto max-w-[1200px] bg-white/50 dark:bg-background-dark/50 backdrop-blur-md border border-[#dbdfe6]/50 dark:border-gray-700/50 rounded-2xl shadow-lg">
+                    <div class="px-4 sm:px-6 md:px-8">
+                        <div class="flex items-center justify-between whitespace-nowrap py-3">
+                        <!-- Logo -->
+                        <div class="flex items-center gap-4 text-[#111318] dark:text-white">
+                            <span class="material-symbols-outlined text-primary text-2xl">smart_toy</span>
+                            <h2 class="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">AutoConnect</h2>
+                        </div>
+                        
+                        <!-- Mobile Menu Button -->
+                        <button id="mobile-menu-btn" class="md:hidden flex flex-col gap-1.5 w-8 h-8 justify-center items-center">
+                            <span class="block w-6 h-0.5 bg-primary transition-all duration-300"></span>
+                            <span class="block w-6 h-0.5 bg-primary transition-all duration-300"></span>
+                            <span class="block w-6 h-0.5 bg-primary transition-all duration-300"></span>
+                        </button>
+                        
+                        <!-- Desktop Nav -->
+                        <div class="hidden md:flex flex-1 justify-center gap-9">
+                            <a class="text-[#111318] dark:text-white text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#features">Features</a>
+                            <a class="text-[#111318] dark:text-white text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#advantage">Your Advantage</a>
+                            <a class="text-[#111318] dark:text-white text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#how-it-works">How It Works</a>
+                            <a class="text-[#111318] dark:text-white text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#pricing">Pricing</a>
+                        </div>
+                        
+                        <!-- CTA Button -->
+                        <div class="hidden md:flex items-center justify-end">
+                            <a href="#pricing" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+                                <span class="truncate">Get Started</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile Menu -->
+                <div id="mobile-menu" class="hidden md:hidden bg-background-light dark:bg-background-dark border-b border-[#dbdfe6] dark:border-gray-700">
+                    <div class="px-4 py-4 flex flex-col gap-4">
+                        <a class="text-[#111318] dark:text-white text-base font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#features">Features</a>
+                        <a class="text-[#111318] dark:text-white text-base font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#advantage">Your Advantage</a>
+                        <a class="text-[#111318] dark:text-white text-base font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#how-it-works">How It Works</a>
+                        <a class="text-[#111318] dark:text-white text-base font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#pricing">Pricing</a>
+                        <a href="#pricing" class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+                            <span class="truncate">Get Started</span>
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="flex flex-col items-center">
+                <!-- Hero Section -->
+                <section class="w-full px-4 sm:px-10 md:px-20 lg:px-40 pt-32 sm:pt-40 pb-16 sm:pb-24">
+                    <div class="mx-auto max-w-[960px]">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                            <div class="flex flex-col gap-6 text-center lg:text-left">
+                                <div class="flex flex-col gap-2 fade-in">
+                                    <h1 class="text-[#111318] dark:text-white text-4xl sm:text-5xl font-black leading-tight tracking-[-0.033em]">Never Lose a Client Call again!</h1>
+                                    <h2 class="text-[#616f89] dark:text-gray-300 text-base sm:text-lg font-normal leading-normal">We build intelligent systems that answers calls, book appointments, and bring new customers, all while you focus on what you do best.</h2>
+                                </div>
+                                <a href="#pricing" class="flex self-center lg:self-start min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors fade-in stagger-1">
+                                    <span class="truncate">Get Started</span>
+                                </a>
+                            </div>
+                            <div class="w-full fade-in stagger-2">
+                                <div class="w-full aspect-[4/3] rounded-xl shadow-lg relative overflow-hidden">
+                                    <!-- Background Image with Blur -->
+                                    <img src="dashboard.png" alt="Dashboard Preview" class="absolute inset-0 w-full h-full object-cover blur-[2px]" />
+                                    
+                                    <!-- Overlay for better text readability -->
+                                    <div class="absolute inset-0 bg-gradient-to-br from-primary/40 to-secondary/40"></div>
+                                    
+                                    <!-- Dashboard Stats -->
+                                    <div class="relative z-10 h-full flex items-center justify-center p-6">
+                                        <div class="bg-white/20 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/40 shadow-xl w-full max-w-md overflow-hidden">
+                                            <div id="stats-slider" class="flex transition-transform duration-700 ease-in-out">
+                                                <!-- Stat 1 -->
+                                                <div class="min-w-full flex flex-col items-center gap-4">
+                                                    <div class="flex items-center gap-3">
+                                                        <span class="material-symbols-outlined text-white text-3xl sm:text-4xl">call</span>
+                                                        <p class="text-white text-4xl sm:text-5xl font-black">138</p>
+                                                    </div>
+                                                    <p class="text-white text-xs sm:text-sm font-semibold uppercase tracking-wide">Calls Answered This Week</p>
+                                                </div>
+                                                
+                                                <!-- Stat 2 -->
+                                                <div class="min-w-full flex flex-col items-center gap-4">
+                                                    <div class="flex items-center gap-3">
+                                                        <span class="material-symbols-outlined text-white text-3xl sm:text-4xl">event_available</span>
+                                                        <p class="text-white text-4xl sm:text-5xl font-black">77</p>
+                                                    </div>
+                                                    <p class="text-white text-xs sm:text-sm font-semibold uppercase tracking-wide">Bookings Made</p>
+                                                </div>
+                                                
+                                                <!-- Stat 3 -->
+                                                <div class="min-w-full flex flex-col items-center gap-4">
+                                                    <div class="flex items-center gap-3">
+                                                        <span class="material-symbols-outlined text-green-300 text-3xl sm:text-4xl">check_circle</span>
+                                                        <p class="text-white text-4xl sm:text-5xl font-black">0</p>
+                                                    </div>
+                                                    <p class="text-white text-xs sm:text-sm font-semibold uppercase tracking-wide">Missed Calls</p>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Slider Indicator Dots -->
+                                            <div class="flex justify-center gap-2 mt-6">
+                                                <button class="slider-dot w-2 h-2 rounded-full bg-white transition-all duration-300" data-slide="0"></button>
+                                                <button class="slider-dot w-2 h-2 rounded-full bg-white/40 transition-all duration-300" data-slide="1"></button>
+                                                <button class="slider-dot w-2 h-2 rounded-full bg-white/40 transition-all duration-300" data-slide="2"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Features Section -->
+                <section class="w-full px-4 sm:px-10 md:px-20 lg:px-40 py-16 sm:py-24 bg-white dark:bg-background-dark" id="features">
+                    <div class="mx-auto max-w-[960px]">
+                        <div class="text-center mb-12 fade-in">
+                            <h3 class="text-3xl font-bold text-[#111318] dark:text-white">Our AI Services for Businesses</h3>
+                            <p class="text-[#616f89] dark:text-gray-300 text-lg mt-2">Targeted for international clients — modular, affordable, and easy to integrate.</p>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Feature 1 -->
+                            <div class="flex flex-col gap-3 rounded-xl border border-[#dbdfe6] dark:border-gray-700 bg-background-light dark:bg-gray-800 p-6 text-center items-center scale-in stagger-1">
+                                <span class="material-symbols-outlined text-primary text-3xl">support_agent</span>
+                                <div class="flex flex-col gap-1">
+                                    <h2 class="text-[#111318] dark:text-white text-base font-bold leading-tight">AI Receptionist / Customer Support</h2>
+                                    <p class="text-[#616f89] dark:text-gray-300 text-sm font-normal leading-normal">Handles incoming calls & answers FAQs. Schedules appointments. Gathers client info. Works 24/7.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Feature 2 -->
+                            <div class="flex flex-col gap-3 rounded-xl border border-[#dbdfe6] dark:border-gray-700 bg-background-light dark:bg-gray-800 p-6 text-center items-center scale-in stagger-2">
+                                <span class="material-symbols-outlined text-primary text-3xl">call_made</span>
+                                <div class="flex flex-col gap-1">
+                                    <h2 class="text-[#111318] dark:text-white text-base font-bold leading-tight">Outbound Calls & Cold Calling</h2>
+                                    <p class="text-[#616f89] dark:text-gray-300 text-sm font-normal leading-normal">AI-powered outbound campaigns. Cold calling, follow-ups, appointment setting. Personalized conversations at scale.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Feature 3 -->
+                            <div class="flex flex-col gap-3 rounded-xl border border-[#dbdfe6] dark:border-gray-700 bg-background-light dark:bg-gray-800 p-6 text-center items-center scale-in stagger-3">
+                                <span class="material-symbols-outlined text-primary text-3xl">calendar_month</span>
+                                <div class="flex flex-col gap-1">
+                                    <h2 class="text-[#111318] dark:text-white text-base font-bold leading-tight">Appointment Booking & Scheduling</h2>
+                                    <p class="text-[#616f89] dark:text-gray-300 text-sm font-normal leading-normal">Real-time booking with calendar integrations. Automated reminders. Timezone-aware for global clients.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Strategic Advantage Section -->
+                <section class="w-full px-4 sm:px-10 md:px-20 lg:px-40 py-16 sm:py-24" id="advantage">
+                    <div class="mx-auto max-w-[960px] flex flex-col gap-12">
+                        <div class="text-center max-w-2xl mx-auto fade-in">
+                            <h4 class="text-primary text-sm font-bold leading-normal tracking-[0.015em]">YOUR STRATEGIC EDGE</h4>
+                            <h3 class="text-3xl font-bold mt-2 text-[#111318] dark:text-white">Gain a Competitive Advantage</h3>
+                            <p class="text-[#616f89] dark:text-gray-300 text-lg mt-4">Move beyond traditional operations and empower your business with AI that drives growth, efficiency, and superior client relationships.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <!-- Advantage 1 -->
+                            <div class="flex flex-col items-center text-center gap-4 fade-in stagger-1">
+                                <div class="flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 dark:bg-primary/20">
+                                    <span class="material-symbols-outlined text-primary text-3xl">sentiment_satisfied</span>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <h4 class="text-[#111318] dark:text-white text-lg font-bold">Elevate Client Satisfaction</h4>
+                                    <p class="text-[#616f89] dark:text-gray-300">Deliver a consistently professional and responsive experience that builds trust and loyalty.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Advantage 2 -->
+                            <div class="flex flex-col items-center text-center gap-4 fade-in stagger-2">
+                                <div class="flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 dark:bg-primary/20">
+                                    <span class="material-symbols-outlined text-primary text-3xl">bolt</span>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <h4 class="text-[#111318] dark:text-white text-lg font-bold">Increase Operational Efficiency</h4>
+                                    <p class="text-[#616f89] dark:text-gray-300">Free your team from repetitive tasks. Our AI ensures seamless communication and scheduling.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Advantage 3 -->
+                            <div class="flex flex-col items-center text-center gap-4 fade-in stagger-3">
+                                <div class="flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 dark:bg-primary/20">
+                                    <span class="material-symbols-outlined text-primary text-3xl">show_chart</span>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <h4 class="text-[#111318] dark:text-white text-lg font-bold">Enhance Market Responsiveness</h4>
+                                    <p class="text-[#616f89] dark:text-gray-300">Never miss a lead. Capture every opportunity with 24/7 availability.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- How It Works Section -->
+                <section class="w-full px-4 sm:px-10 md:px-20 lg:px-40 py-16 sm:py-24 bg-white dark:bg-background-dark" id="how-it-works">
+                    <div class="mx-auto max-w-[960px] flex flex-col gap-12">
+                        <div class="text-center fade-in">
+                            <h4 class="text-primary text-base font-bold leading-normal tracking-[0.015em] uppercase">How It Works</h4>
+                            <h3 class="text-4xl sm:text-5xl font-bold mt-3 text-[#111318] dark:text-white">Get Started in 3 Simple Steps</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-4">
+                            <!-- Step 1 -->
+                            <div class="flex flex-col items-center text-center gap-4 slide-in-left stagger-1">
+                                <div class="flex items-center justify-center h-20 w-20 rounded-full bg-primary/20 dark:bg-primary/30">
+                                    <span class="material-symbols-outlined text-primary text-5xl">person_add</span>
+                                </div>
+                                <div class="flex flex-col gap-3">
+                                    <p class="text-[#111318] dark:text-white text-2xl font-bold leading-normal">1. Sign Up</p>
+                                    <p class="text-[#616f89] dark:text-gray-300 text-base leading-relaxed">Choose the plan that best fits your business needs in just a few clicks.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2 -->
+                            <div class="flex flex-col items-center text-center gap-4 fade-in stagger-2">
+                                <div class="flex items-center justify-center h-20 w-20 rounded-full bg-primary/20 dark:bg-primary/30">
+                                    <span class="material-symbols-outlined text-primary text-5xl">tune</span>
+                                </div>
+                                <div class="flex flex-col gap-3">
+                                    <p class="text-[#111318] dark:text-white text-2xl font-bold leading-normal">2. Customize</p>
+                                    <p class="text-[#616f89] dark:text-gray-300 text-base leading-relaxed">Tell us how to handle your calls, what information to collect, and integration preferences.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3 -->
+                            <div class="flex flex-col items-center text-center gap-4 slide-in-right stagger-3">
+                                <div class="flex items-center justify-center h-20 w-20 rounded-full bg-primary/20 dark:bg-primary/30">
+                                    <span class="material-symbols-outlined text-primary text-5xl">rocket_launch</span>
+                                </div>
+                                <div class="flex flex-col gap-3">
+                                    <p class="text-[#111318] dark:text-white text-2xl font-bold leading-normal">3. Go Live</p>
+                                    <p class="text-[#616f89] dark:text-gray-300 text-base leading-relaxed">Your AI is ready to represent your brand and help your business grow.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Pricing Section -->
+                <section class="w-full px-4 sm:px-10 md:px-20 lg:px-40 py-16 sm:py-24 bg-white dark:bg-background-dark" id="pricing">
+                    <div class="mx-auto max-w-[960px] flex flex-col gap-10">
+                        <div class="text-center fade-in">
+                            <h3 class="text-3xl font-bold text-[#111318] dark:text-white">Choose Your Service Level</h3>
+                            <p class="text-[#616f89] dark:text-gray-300 text-lg mt-2">Flexible pricing tailored to your business needs and budget.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[800px] mx-auto">
+                            <!-- Basic Package -->
+                            <div class="flex flex-col gap-6 rounded-xl border-2 border-[#dbdfe6] dark:border-gray-700 bg-background-light dark:bg-gray-800 p-8 relative slide-in-left stagger-1">
+                                <div class="flex flex-col gap-3 min-h-[200px]">
+                                    <div class="bg-primary/20 rounded-full p-3 text-primary w-fit">
+                                        <span class="material-symbols-outlined text-3xl">phone_in_talk</span>
+                                    </div>
+                                    <h4 class="text-[#111318] dark:text-white text-2xl font-bold mt-2">Basic</h4>
+                                    <div class="flex items-baseline gap-2">
+                                        <span class="text-4xl font-black text-primary">Custom</span>
+                                    </div>
+                                    <p class="text-[#616f89] dark:text-gray-300">Perfect for small businesses looking to automate customer communication.</p>
+                                </div>
+                                <div class="border-t-2 border-[#dbdfe6] dark:border-gray-700 pt-4">
+                                    <p class="text-[#111318] dark:text-white font-semibold mb-3">What you get:</p>
+                                    <ul class="text-[#616f89] dark:text-gray-300 text-sm space-y-3">
+                                        <li class="flex items-start gap-3">
+                                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">check_circle</span>
+                                            <span><strong>Inbound calls</strong> - 24/7 answering & routing</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">check_circle</span>
+                                            <span>Appointment scheduling with calendar sync</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">check_circle</span>
+                                            <span>Basic customer inquiries handling</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">check_circle</span>
+                                            <span>Email notifications for calls</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">check_circle</span>
+                                            <span>Standard voice personality</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a href="mailto:ahmed.4698.arshad@gmail.com?subject=Quote%20Request%20-%20Basic%20Package&body=Hi%20Ahmed%2C%0D%0A%0D%0AI'm%20interested%20in%20the%20Basic%20Package%20for%20AutoConnect.%0D%0A%0D%0AMy%20Business%20Details%3A%0D%0ABusiness%20Name%3A%20%0D%0AIndustry%2FType%3A%20%0D%0AExpected%20Monthly%20Call%20Volume%3A%20%0D%0ACurrent%20Challenges%3A%20%0D%0A%0D%0ABasic%20Package%20Features%20I%20need%3A%0D%0A-%2024%2F7%20call%20answering%20and%20routing%0D%0A-%20Appointment%20scheduling%20with%20calendar%20sync%0D%0A-%20Basic%20customer%20inquiries%20handling%0D%0A-%20Email%20notifications%20for%20calls%0D%0A-%20Standard%20voice%20personality%0D%0A%0D%0AMy%20Budget%20Range%3A%20%0D%0A%0D%0APlease%20send%20me%20a%20custom%20quote%20for%20the%20Basic%20Package.%0D%0A%0D%0AThank%20you!" class="flex items-center justify-center rounded-lg h-12 px-4 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors mt-auto">
+                                    Get a Quote
+                                </a>
+                            </div>
+                            
+                            <!-- Premium Package -->
+                            <div class="flex flex-col gap-6 rounded-xl border-2 border-primary bg-background-light dark:bg-gray-800 p-8 relative shadow-lg slide-in-right stagger-2">
+                                <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-4 py-1.5 rounded-full">RECOMMENDED</div>
+                                <div class="flex flex-col gap-3 min-h-[200px]">
+                                    <div class="bg-primary/20 rounded-full p-3 text-primary w-fit">
+                                        <span class="material-symbols-outlined text-3xl">workspace_premium</span>
+                                    </div>
+                                    <h4 class="text-[#111318] dark:text-white text-2xl font-bold mt-2">Premium</h4>
+                                    <div class="flex items-baseline gap-2">
+                                        <span class="text-4xl font-black text-primary">Custom</span>
+                                    </div>
+                                    <p class="text-[#616f89] dark:text-gray-300">Advanced features for growing businesses that need extensive support.</p>
+                                </div>
+                                <div class="border-t-2 border-[#dbdfe6] dark:border-gray-700 pt-4">
+                                    <p class="text-[#111318] dark:text-white font-semibold mb-3">Everything in Basic, plus:</p>
+                                    <ul class="text-[#616f89] dark:text-gray-300 text-sm space-y-3">
+                                        <li class="flex items-start gap-3">
+                                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">check_circle</span>
+                                            <span><strong>Outbound calling & cold campaigns</strong></span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">check_circle</span>
+                                            <span>Custom voice personality & scripts</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">check_circle</span>
+                                            <span>CRM integration (HubSpot, Salesforce, etc.)</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">check_circle</span>
+                                            <span>Advanced call routing & prioritization</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">check_circle</span>
+                                            <span>Multi-language support</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">check_circle</span>
+                                            <span>Detailed analytics & reporting</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">check_circle</span>
+                                            <span>Priority support & onboarding</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a href="mailto:ahmed.4698.arshad@gmail.com?subject=Quote%20Request%20-%20Premium%20Package&body=Hi%20Ahmed%2C%0D%0A%0D%0AI'm%20interested%20in%20the%20Premium%20Package%20for%20AutoConnect.%0D%0A%0D%0AMy%20Business%20Details%3A%0D%0ABusiness%20Name%3A%20%0D%0AIndustry%2FType%3A%20%0D%0AExpected%20Monthly%20Call%20Volume%3A%20%0D%0ACurrent%20Challenges%3A%20%0D%0A%0D%0APremium%20Package%20Features%20I%20need%3A%0D%0A-%20All%20Basic%20features%0D%0A-%20Custom%20voice%20personality%20%26%20scripts%0D%0A-%20CRM%20integration%20(please%20specify%3A%20_____________)%0D%0A-%20Advanced%20call%20routing%20%26%20prioritization%0D%0A-%20Multi-language%20support%20(languages%3A%20_____________)%0D%0A-%20Detailed%20analytics%20%26%20reporting%0D%0A-%20Priority%20support%20%26%20onboarding%0D%0A%0D%0AMy%20Budget%20Range%3A%20%0D%0A%0D%0APlease%20send%20me%20a%20custom%20quote%20for%20the%20Premium%20Package.%0D%0A%0D%0AThank%20you!" class="flex items-center justify-center rounded-lg h-12 px-4 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors mt-auto">
+                                    Get a Quote
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Pricing Philosophy -->
+                        <div class="bg-secondary/20 border border-secondary rounded-xl p-6 text-center mt-4 max-w-[800px] mx-auto">
+                            <p class="text-[#111318] dark:text-white text-lg font-semibold mb-2">💡 Why Custom Pricing?</p>
+                            <p class="text-[#616f89] dark:text-gray-300">Every business has unique needs, call volumes, and budgets. We assess your requirements and create a pricing plan that maximizes your ROI, whether you're a solo entrepreneur or a growing enterprise. No hidden fees, just transparent value.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CTA Section -->
+                <section class="w-full px-4 sm:px-10 md:px-20 lg:px-40 py-16 sm:py-24">
+                    <div class="mx-auto max-w-[960px] bg-primary rounded-xl p-10 sm:p-16 text-center flex flex-col items-center gap-6 fade-in">
+                        <h2 class="text-white text-3xl sm:text-4xl font-bold leading-tight">Ready to Grow Your Business?</h2>
+                        <p class="text-white/80 max-w-xl">Let AI handle the repetitive tasks so you can focus on what you do best. Get started with AutoConnect today and experience the difference.</p>
+                        <a href="#pricing" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-white text-primary text-base font-bold leading-normal tracking-[0.015em] hover:bg-gray-200 transition-colors">
+                            <span class="truncate">Get Started Today</span>
+                        </a>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Footer -->
+            <footer class="w-full px-4 sm:px-10 md:px-20 lg:px-40 py-10 bg-white dark:bg-background-dark border-t border-[#dbdfe6] dark:border-gray-700">
+                <div class="mx-auto max-w-[960px]">
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
+                        <div class="flex items-center gap-4 text-[#111318] dark:text-white">
+                            <span class="material-symbols-outlined text-primary text-2xl">smart_toy</span>
+                            <h2 class="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">AutoConnect</h2>
+                        </div>
+                        <div class="text-sm text-[#616f89] dark:text-gray-400">© 2025 AutoConnect. All rights reserved.</div>
+                        <div class="flex gap-4 items-center">
+                            <a class="text-[#616f89] dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="https://instagram.com/haqueim9" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                            <a class="text-[#616f89] dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="https://x.com/haqueim9" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- TypeScript/JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
